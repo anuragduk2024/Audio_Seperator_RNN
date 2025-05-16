@@ -10,7 +10,7 @@ This project is a deep learning-based tool for singing voice separation. It uses
 
 - **Source Separation:** Separates vocals and accompaniment from stereo audio.
 - **Streamlit Web App:** Upload your own `.mp3` file and get separated audio instantly.
-- **Training & Evaluation:** Easily train and evaluate the model on the MIR-1K dataset.
+- **Training:** Easily train the model on the MIR-1K dataset.
 - **SI-SNR Loss:** Uses Scale-Invariant Signal-to-Noise Ratio (SI-SNR) as the loss function for robust source separation.
 - **Visualization:** Training and validation loss curves are plotted for monitoring.
 
@@ -75,7 +75,7 @@ Plot both training and validation loss curves:
 ```bash
 python utils.py
 ```
-This will save the plot as `figures/training_validation_loss.png`.
+This will save the plot as `figures/train_validation_loss.png`.
 
 ### 3. **Main Demo (Command Line)**
 Separate sources from `.mp3` files in the `songs/` directory:
@@ -84,14 +84,7 @@ python main.py
 ```
 Outputs will be saved in the `main-demo/` directory.
 
-### 4. **Evaluation**
-Evaluate the model on the test set:
-```bash
-python evaluate.py
-```
-Outputs will be saved in the `eval-demo/` directory.
-
-### 5. **Streamlit Web App**
+### 4. **Streamlit Web App**
 Run the web interface:
 ```bash
 streamlit run app.py
@@ -128,12 +121,10 @@ AS_V1.2/
 ├── MIR-1K/                # Dataset root
 │   └── Wavfile/           # Main audio files
 ├── main-demo/             # Outputs from main demo
-├── eval-demo/             # Outputs from evaluation
 ├── model/                 # Saved model weights
 ├── figures/               # Training/validation loss plots, app screenshots
 ├── train.py               # Training script
 ├── main.py                # Main demo script
-├── evaluate.py            # Evaluation script
 ├── app.py                 # Streamlit web app
 ├── utils.py               # Plotting utilities
 ├── requirements.txt

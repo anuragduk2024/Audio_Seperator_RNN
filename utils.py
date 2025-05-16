@@ -1,36 +1,24 @@
-
 import os
-import pandas as pd 
-import numpy as np
-import matplotlib
-matplotlib.use('Agg')
+import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_curve(step,train_loss, val_loss, filename):
-
-    fig = plt.figure(figsize=(12,8))
-    plt.plot(step, train_loss, color='r', clip_on=False, label='Training Loss')
-    plt.plot(step, val_loss, color='b', clip_on=False, label='Validation Loss')
-    plt.legend()
-    plt.ylabel('Loss')
+def plot_train_and_validation_loss(log_path, output_path):
+    df = pd.read_csv(log_path)
+    plt.figure(figsize=(12, 8))
+    plt.plot(df['iteration'], df['train_loss'], label='Training Loss', color='red')
+    plt.plot(df['iteration'], df['validation_loss'], label='Validation Loss', color='blue')
     plt.xlabel('Iteration')
-    fig.savefig(filename, dpi = 600, bbox_inches = 'tight')
+    plt.ylabel('Loss (SI-SNR)')
+    plt.title('Training and Validation Loss Curve')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=600)
     plt.close()
 
-
-def plot_training_curve(tensorboard_log, output_directory):
-
-    df = pd.read_csv(tensorboard_log, header=None, names=['Iteration', 'Training_Loss', 'Validation_Loss'])
-    step = df['Iteration'].to_numpy()  # Changed from as_matrix() to to_numpy()
-    train_loss = df['Training_Loss'].to_numpy()
-    val_loss = df['Validation_Loss'].to_numpy()
-
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
-
-    plot_curve(step=step, train_loss=train_loss, val_loss=val_loss, 
-               filename=os.path.join(output_directory, 'training_validation_loss.png'))
-
 if __name__ == '__main__':
-    
-    plot_training_curve(tensorboard_log = 'log/train_log.csv', output_directory = 'figures')
+    log_path = os.path.join('log', 'train_log.csv')
+    output_path = os.path.join('figures', 'train_validation_loss.png')
+    if not os.path.exists('figures'):
+        os.makedirs('figures')
+    plot_train_and_validation_loss(log_path, output_path)
