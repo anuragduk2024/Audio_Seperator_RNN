@@ -98,7 +98,7 @@ streamlit run app.py
 
 **Training and Validation Loss Curves:**
 <p align="center">
-    <img src="./figures/train-validation loss.png" width="75%">
+    <img src="./figures/train_validation_loss.png" width="75%">
 </p>
 
 **Streamlit App:**
