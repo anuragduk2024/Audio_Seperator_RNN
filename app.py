@@ -80,8 +80,8 @@ def main():
                 # Save processed audio files
                 vocal_path = "vocals.wav"
                 background_path = "background.wav"
-                sf.write(vocal_path, vocals, 16000)
-                sf.write(background_path, background, 16000)
+                sf.write(vocal_path, background, 16000)
+                sf.write(background_path, vocals, 16000)
 
                 # Clean up temporary file
                 os.unlink(tmp_filepath)

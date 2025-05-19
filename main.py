@@ -1,4 +1,3 @@
-
 import librosa
 import os
 import numpy as np
@@ -36,6 +35,12 @@ def separate_sources(song_filenames, output_directory = 'main-demo'):
         stfts_mono.append(stft_mono.transpose())
 
     model = SVSRNN(num_features = n_fft // 2 + 1, num_rnn_layer = num_rnn_layer, num_hidden_units = num_hidden_units, tensorboard_directory = tensorboard_directory, clear_tensorboard = clear_tensorboard)
+    
+    # Build the model with a sample input before loading weights
+    sample_input = np.zeros((1, stfts_mono[0].shape[0], n_fft // 2 + 1))
+    _ = model(sample_input)  # This builds the model
+    
+    # Now load the weights
     model.load(filepath = model_filepath)
 
     for wav_filename, wav_mono, stft_mono in zip(song_filenames, wavs_mono, stfts_mono):
@@ -43,8 +48,8 @@ def separate_sources(song_filenames, output_directory = 'main-demo'):
         wav_filename_dir = os.path.dirname(wav_filename)
         wav_filename_base = os.path.basename(wav_filename)
         wav_mono_filename = wav_filename_base.split('.')[0] + '_mono.wav'
-        wav_src1_hat_filename = wav_filename_base.split('.')[0] + '_src1.wav'
-        wav_src2_hat_filename = wav_filename_base.split('.')[0] + '_src2.wav'
+        wav_src1_hat_filename = wav_filename_base.split('.')[0] + '_background.wav'
+        wav_src2_hat_filename = wav_filename_base.split('.')[0] + '_vocals.wav'
         wav_mono_filepath = os.path.join(output_directory, wav_mono_filename)
         wav_src1_hat_filepath = os.path.join(output_directory, wav_src1_hat_filename)
         wav_src2_hat_filepath = os.path.join(output_directory, wav_src2_hat_filename)
